@@ -234,20 +234,24 @@
 </style>
 <style>
 .points-showcase { padding: 16px 0 5px; }
-.points-heading { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px; margin: 0 auto 14px; max-width: 1300px; }
+.points-heading { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px; margin: 0 auto 14px; max-width: 1440px; }
 .points-heading h2 { font-size: clamp(23px,3vw,30px); letter-spacing: -.03em; line-height: 1.25; }
 .points-heading p { color: var(--muted); font-size: 13px; margin-top: 5px; }
 .points-controls { display: flex; gap: 7px; }
 .points-controls .button { min-height: 38px; padding: 7px 11px; }
-.points-stage { display: grid; grid-template-columns: minmax(380px, 1.15fr) minmax(0, 1fr); gap: 18px; max-width: 1300px; margin: 0 auto; align-items: start; }
+.points-stage {
+  --points-column-height: clamp(574px, calc(100dvh - 218px), 760px);
+  display: grid; grid-template-columns: minmax(310px,.94fr) minmax(238px,.80fr) minmax(365px,1.34fr);
+  gap: 13px; max-width: 1440px; margin: 0 auto; align-items: start;
+}
 .device-stage {
-  display: grid; place-items: center; min-width: 0; padding: 13px 16px;
+  display: grid; place-items: start center; min-width: 0; min-height: var(--points-column-height); padding: 10px 8px;
   background: radial-gradient(ellipse at 55% 35%, #eef5ff, #dfe8f6 75%);
   border: 1px solid #cddaea; border-radius: 14px;
 }
 .points-device {
-  width: min(100%, 371px); height: clamp(580px, 76vh, 714px); display: grid;
-  grid-template-rows: 30px 56px minmax(0,1fr) auto auto 13px;
+  width: min(100%, 371px); height: calc(var(--points-column-height) - 22px); display: grid;
+  grid-template-rows: 30px 48px auto minmax(0,1fr) auto auto 13px;
   border: 8px solid #13213a; border-radius: 34px; overflow: hidden;
   background: #f5f7fb; color: #182944; box-shadow: 0 15px 32px #14284b30, 0 3px 8px #112b491c;
   font-size: 13px; position: relative;
@@ -267,6 +271,13 @@
 .device-header small { margin-top: 3px; font-size: 10.5px; color: #596b83; }
 .device-test { margin-left: auto; padding: 3px 6px; border-radius: 5px; background: #eef3fb; color: #526882; font-size: 10px; white-space: nowrap; }
 .device-back { min-width: 34px; height: 38px; padding: 0; border: 1px solid #e2eaf7; border-radius: 8px; background: #f5f8fc; color: #235bb6; line-height: 1; font-size: 26px; }
+.device-status { grid-row: 1; }
+.device-header { grid-row: 2; }
+.device-plan { grid-row: 3; }
+.device-screen { grid-row: 4; }
+.device-compose { grid-row: 5; }
+.device-nav { grid-row: 6; }
+.device-bottom { grid-row: 7; }
 .device-screen { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; min-height: 0; padding: 11px; }
 .device-compose { display: flex; gap: 6px; padding: 7px 9px; border-top: 1px solid #e0e8f4; background: white; }
 .device-compose input { width: 100%; min-width: 0; border: 1px solid #d6e0ee; border-radius: 8px; padding: 8px; color: #183353; font: inherit; background: #f6f8fc; }
@@ -350,7 +361,45 @@
 .chat-loading::before { content: ''; width: 9px; height: 9px; border: 1.5px solid #c9dbef; border-top-color: #2464b7; border-radius: 50%; animation: points-spin .75s linear infinite; }
 @keyframes points-spin { to { transform: rotate(360deg); } }
 @media(prefers-reduced-motion:reduce) { .chat-loading::before { animation: none; } }
-.points-console { display: grid; align-content: start; gap: 8px; }
+.device-plan { padding: 6px 9px 7px; background: #fff; border-bottom: 1px solid #cfdff3; }
+.device-plan header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 6px; padding: 1px 3px 4px; }
+.device-plan header strong { font-size: 13px; font-weight: 800; color: #204677; }
+.device-plan header span { color: #536d8e; font-size: 10px; }
+.device-plan ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 1px; }
+.device-plan li { display: grid; grid-template-columns: 16px minmax(0,1fr) auto; gap: 6px; align-items: center; min-height: 23px; padding: 2px 4px; border-radius: 5px; }
+.device-plan li[data-state="active"] { background: #e9f2ff; }
+.device-plan li[data-state="waiting"] { background: #fff2df; }
+.device-plan li[data-state="stopped"] { background: #eef0f4; }
+.device-plan-dot { display: grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; background: #eaf0f8; color: #557196; font-size: 9px; font-weight: 760; }
+.device-plan li[data-state="done"] .device-plan-dot,
+.device-plan li[data-state="active"] .device-plan-dot { background: #2c60a9; color: white; }
+.device-plan li[data-state="waiting"] .device-plan-dot { background: #9f5d1b; color: white; }
+.device-plan-task { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 5px; }
+.device-plan-task strong { color: #244063; font-size: 12px; line-height: 1.3; }
+.device-plan-task small { font-size: 10px; color: #576f90; line-height: 1.3; }
+.device-plan-state { color: #496582; font-size: 10px; white-space: nowrap; }
+.device-plan li[data-state="active"] .device-plan-state { color: #1a57a7; font-weight: 730; }
+.device-plan li[data-state="waiting"] .device-plan-state { color: #75420e; font-weight: 730; }
+@media (prefers-reduced-motion: no-preference) {
+  .device-plan li[data-state="active"] .device-plan-dot { animation: points-current .95s ease-out infinite; }
+}
+@media (min-width: 1021px) and (max-height: 820px) {
+  .points-showcase { padding-top: 10px; }
+  .points-heading { margin-bottom: 9px; }
+  .points-heading h2 { font-size: 24px; }
+  .points-stage { --points-column-height: clamp(530px, calc(100dvh - 200px), 620px); }
+  .points-progress .points-mini { margin-block: 6px 4px; }
+  .points-progress .points-mini-diagram { max-height: 135px; }
+  .points-progress .points-steps li { min-height: 27px; padding-block: 2px 3px; }
+  .points-progress .points-steps li:not(:last-child)::after { top: 12px; bottom: -12px; }
+  .points-technical-content pre { max-height: 174px; }
+}
+
+.points-console { min-width: 0; display: grid; align-content: start; gap: 8px; }
+.points-progress-column .points-progress { min-height: var(--points-column-height); }
+.points-progress .points-steps li { min-height: 29px; padding-block: 3px 4px; }
+.points-progress .points-steps li:not(:last-child)::after { top: 13px; bottom: -13px; }
+.points-scenes-column .points-scope { margin: 0 2px; }
 .points-panel { background: #fff; padding: 10px 12px; border: 1px solid #dce4ef; border-radius: 9px; }
 .points-panel h3 { font-size: 13px; }
 .points-panel p, .points-scope { color: #4d627d; font-size: 12px; }
@@ -415,18 +464,19 @@
 .points-technical { padding: 0; }
 .points-technical summary { min-height: 35px; font-size: 12px; padding: 8px 11px; }
 .points-technical-content { padding: 0 11px 9px; font-size: 12px; }
-.points-technical-content pre { max-height: 180px; overflow: auto; padding: 7px; font-size: 10px; }
+.points-technical-content pre { max-height: 205px; overflow: auto; padding: 7px; font-size: 10.5px; }
 .points-fallback { display: flex; align-items: center; gap: 6px; min-height: 24px; color: #435978; font-size: 11px; }
 .points-fallback input { accent-color: #225aab; }
 .points-scope { font-size: 11px; line-height: 1.4; }
-@media(max-width:870px) {
-  .points-stage { grid-template-columns: minmax(330px,1fr) minmax(0,.95fr); gap: 9px; }
-  .device-stage { padding-inline: 7px; }
+@media(max-width:1020px) {
+  .points-stage { grid-template-columns: minmax(305px, .92fr) minmax(0, 1.08fr); gap: 10px; }
+  .device-stage { grid-row: 1 / 3; }
+  .points-progress-column .points-progress { min-height: 0; }
 }
 @media(max-width:695px) {
   .points-stage { grid-template-columns: minmax(0,1fr); }
-  .device-stage { padding: 10px; }
-  .points-device { height: clamp(510px, 75dvh, 660px); }
+  .device-stage { grid-row: auto; min-height: 0; padding: 10px; }
+  .points-device { height: clamp(535px, 75dvh, 660px); }
 }
 @media(max-width:390px) {
   .device-stage { border: 0; background: transparent; padding: 0; }
@@ -549,6 +599,10 @@
               <div><strong id="device-title">积分享兑</strong><small id="device-subtitle">积分权益中心</small></div>
               <span class="device-test">模拟账户</span>
             </div>
+            <section class="device-plan" id="device-plan" aria-labelledby="device-plan-title" hidden>
+              <header><strong id="device-plan-title">办理计划 · Todo</strong><span id="device-plan-count"></span></header>
+              <ol id="device-plan-list"></ol>
+            </section>
             <div class="device-screen" id="device-screen"></div>
             <form class="device-compose" id="points-compose" hidden>
               <label class="device-sr" for="points-message">给积分助手发消息</label>
@@ -563,7 +617,7 @@
             <div class="device-bottom" aria-hidden="true"></div>
           </div>
         </div>
-        <aside class="points-console" aria-label="演示讲解与办理进度">
+        <aside class="points-console points-scenes-column" aria-label="演示场景与实例数据">
           <section class="points-panel points-scenarios" aria-labelledby="points-scenarios-title">
             <h3 id="points-scenarios-title">演示场景</h3>
             <div class="points-shortcuts">
@@ -588,6 +642,18 @@
             <p class="points-route-name" id="points-route-name" aria-live="polite"></p>
             <p id="points-route-copy"></p>
           </section>
+          <details class="points-panel points-technical" open>
+            <summary>实例数据</summary>
+            <div class="points-technical-content">
+              <strong id="points-tech-title"></strong>
+              <p id="points-tech-copy"></p>
+              <pre id="points-tech-json"></pre>
+            </div>
+          </details>
+          <label class="points-fallback"><input id="points-no-reward" type="checkbox">模拟无可领活动奖励</label>
+          <p class="points-scope">独立模拟页。现有积分 Demo 命中积分域时由 L1 直接委派，L2 内办理。本页的慢路径用于演示通用编排，余额、回执和事件为模拟数据。</p>
+        </aside>
+        <aside class="points-console points-progress-column" aria-label="办理进度与架构联动">
           <section class="points-panel points-progress" aria-labelledby="points-progress-title">
             <div class="points-step-head"><h3 id="points-progress-title">办理进度</h3><span id="points-step-count"></span></div>
             <div class="points-meter" id="points-meter" role="progressbar" aria-labelledby="points-progress-title"
@@ -645,16 +711,6 @@
             </figure>
             <ol id="points-steps" class="points-steps"></ol>
           </section>
-          <details class="points-panel points-technical">
-            <summary>实现与数据示例</summary>
-            <div class="points-technical-content">
-              <strong id="points-tech-title"></strong>
-              <p id="points-tech-copy"></p>
-              <pre id="points-tech-json"></pre>
-            </div>
-          </details>
-          <label class="points-fallback"><input id="points-no-reward" type="checkbox">模拟无可领活动奖励</label>
-          <p class="points-scope">独立模拟页。现有积分 Demo 命中积分域时由 L1 直接委派，L2 内办理。本页的慢路径用于演示通用编排，余额、回执和事件为模拟数据。</p>
         </aside>
       </div>
       <p id="points-announcer" class="device-sr" role="status"></p>
@@ -780,6 +836,12 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     redeem: ['兑换电影券', '用户确认后 A2A 接入，执行引擎接续兑换'],
     receipt: ['交付电影券与回执', 'SSE 回传业务结果与回执']
   };
+  const todoDefinitions = [
+    {id:'todo-1', step:'quote', title:'核对余额和电影券', action:'benefit.quote', dependsOn:[], confirm:false},
+    {id:'todo-2', step:'rewards', title:'查询可领积分', action:'reward.lookup', dependsOn:['todo-1'], when:'余额不足', confirm:false},
+    {id:'todo-3', step:'claim', title:'领取活动奖励', action:'reward.claim', dependsOn:['todo-2'], when:'有可领积分', confirm:true},
+    {id:'todo-4', step:'redeem', title:'兑换电影券', action:'benefit.redeem', dependsOn:['todo-1'], when:'余额已足，需补积分时等待领取结果', confirm:true}
+  ];
   const phases = {
     'fast-done': 'COMPLETED', done: 'COMPLETED', 'already-done': 'COMPLETED',
     'claim-wait': 'INPUT_REQUIRED', 'redeem-wait': 'INPUT_REQUIRED',
@@ -799,7 +861,7 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     return {balance:initial, credit:'', ticket:'', ledger:[]};
   }
   function freshRun() {
-    return {mode:'', phase:'idle', step:'route', done:new Set(), checkedRewards:false, history:[]};
+    return {mode:'', phase:'idle', step:'route', done:new Set(), checkedRewards:false, history:[], todoResults:null};
   }
   const shortage = () => Math.max(0, cost - account.balance);
   const waiting = () => phases[run.phase] === 'INPUT_REQUIRED';
@@ -811,11 +873,11 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     clearTimeout(timer);
     generation++;
   }
-  function schedule(callback) {
+  function schedule(callback, delay = 680) {
     const scheduledRun = generation;
     timer = setTimeout(() => {
       if (scheduledRun === generation) callback();
-    }, reduced.matches ? 170 : 680);
+    }, reduced.matches ? 170 : delay);
   }
   function move(phase, step, completed) {
     if (completed) run.done.add(completed);
@@ -863,13 +925,20 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
       }
       move('planning', 'plan', 'route');
       schedule(() => {
-        move('quoting', 'quote', 'plan');
-        schedule(checkBalance);
+        run.todoResults = {};
+        move('plan-ready', 'plan');
+        schedule(() => {
+          move('quoting', 'quote', 'plan');
+          schedule(checkBalance, 980);
+        }, 1350);
       });
     });
   }
   function checkBalance() {
     run.done.add('quote');
+    run.todoResults.quote = shortage()
+      ? '余额 ' + pointText(account.balance) + '，还差 ' + pointText(shortage())
+      : '余额 ' + pointText(account.balance) + '，可以兑换';
     if (account.balance >= cost) {
       move('redeem-wait', 'redeem');
       return;
@@ -877,9 +946,10 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     run.checkedRewards = true;
     move('rewards', 'rewards');
     schedule(() => {
-      if (run.noReward || account.credit) move('no-reward', 'rewards');
-      else move('claim-wait', 'claim', 'rewards');
-    });
+      const noReward = run.noReward || account.credit;
+      run.todoResults.rewards = noReward ? '暂无可领积分' : '找到 ' + pointText(reward) + ' 奖励';
+      move(noReward ? 'no-reward' : 'claim-wait', noReward ? 'rewards' : 'claim', 'rewards');
+    }, 1050);
   }
   function append(text, speaker = 'user') {
     run.history.push({speaker, text});
@@ -895,9 +965,10 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     schedule(() => {
       account.credit = 'DEMO-REWARD-' + sequence(taskNumber);
       postEntry('活动奖励到账', reward, account.credit);
+      run.todoResults.claim = '已到账 ' + pointText(reward);
       append('已到账 ' + pointText(reward) + '，可用积分 ' + pointText(account.balance) + '。', 'agent');
       move('redeem-wait', 'redeem', 'claim');
-    });
+    }, 980);
   }
   function confirmRedeem() {
     if (run.phase !== 'redeem-wait' || account.balance < cost) return;
@@ -906,9 +977,10 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     schedule(() => {
       account.ticket = 'DEMO-TICKET-' + sequence(taskNumber);
       postEntry('电影券兑换', -cost, account.ticket);
+      run.todoResults.redeem = '已发券，剩余 ' + pointText(account.balance);
       run.done.add('redeem');
       move('done', 'receipt', 'receipt');
-    });
+    }, 980);
   }
   function cancel(kind) {
     if (run.phase !== kind + '-wait') return;
@@ -1034,7 +1106,8 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
       case 'fast-candidate': return {title:'已选定积分查询能力', copy:'将直接委派给积分权益 Agent。'};
       case 'reading': return {title:'正在查询积分', copy:'正在读取积分账户余额。'};
       case 'fast-done': return {title:'积分查询完成', copy:'这是你的当前余额。', figures:[balance], controls:[['查看积分明细','ledger'],['兑换电影券','product',true]]};
-      case 'planning': return {title:'正在安排兑换', copy:'先查余额和可兑权益，再按需补积分。'};
+      case 'planning': return {title:'正在拆解兑换请求', copy:'我会先核对余额和券，再根据结果决定是否补积分。'};
+      case 'plan-ready': return {title:'办理计划已就绪', copy:'先核对余额和电影券。领取奖励和兑换扣分前，我会分别请你确认。'};
       case 'quoting': return {title:'正在核对兑换条件', copy:'正在核对余额、券的库存与兑换价格。', figures:[balance,['兑换需要',cost]]};
       case 'rewards': return {title:'正在查询可领活动', copy:'还差 ' + pointText(shortage()) + '，正在找可以马上领取的活动奖励。', figures:[balance]};
       case 'claim-wait': return {title:'领取活动奖励', copy:'已满足活动条件，领取的积分立即到账。', figures:[balance,['可领取',reward]], controls:[['领取 300 分','claim'],['先不领取','cancel-claim',true]]};
@@ -1055,7 +1128,7 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     for (const item of run.history) chat.append(dom('div','chat-bubble ' + item.speaker,item.text));
     const current = screen();
     const answer = card(current.title,current.copy,'chat-answer' + (waiting() ? ' is-waiting' : ''));
-    if (blocked() && !waiting()) answer.firstElementChild.classList.add('chat-loading');
+    if (blocked() && !waiting() && run.phase !== 'plan-ready') answer.firstElementChild.classList.add('chat-loading');
     if (current.figures) {
       const figures = dom('dl','chat-figures');
       for (const [label, value] of current.figures) {
@@ -1072,6 +1145,34 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     chat.append(answer);
     if (tip) chat.append(dom('div','chat-bubble',tip));
     return chat;
+  }
+
+  function renderTodoPlan() {
+    const panel = el('device-plan');
+    panel.hidden = view !== 'assistant' || !run.todoResults;
+    if (panel.hidden) return;
+
+    const rows = todoDefinitions.map((todo,index) => {
+      const state = status(todo.step);
+      const row = dom('li');
+      row.dataset.todo = todo.step;
+      row.dataset.state = state;
+      if (state === 'active' || state === 'waiting') row.setAttribute('aria-current','step');
+      const marker = dom('span','device-plan-dot',state === 'done' ? '✓' : String(index + 1));
+      marker.setAttribute('aria-hidden','true');
+      const copy = dom('div','device-plan-task');
+      copy.append(dom('strong','',todo.title));
+      const detail = run.todoResults[todo.step]
+        || (skipsRewardStep(todo.step) ? '余额已足'
+          : state === 'pending' && todo.confirm ? '需确认'
+          : state === 'pending' && todo.when ? todo.when : '');
+      if (detail) copy.append(dom('small','',detail));
+      row.append(marker,copy,dom('span','device-plan-state',labels[state]));
+      return row;
+    });
+    const done = rows.filter(row => row.dataset.state === 'done').length;
+    el('device-plan-count').textContent = done + ' 项已完成 · 共 ' + rows.length + ' 项';
+    el('device-plan-list').replaceChildren(...rows);
   }
 
   function renderPhone() {
@@ -1102,6 +1203,7 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
       if (onPage) entry.setAttribute('aria-current','page');
       else entry.removeAttribute('aria-current');
     }
+    renderTodoPlan();
     surface.replaceChildren(appScreens[view]());
     if (view === 'assistant') surface.scrollTop = surface.scrollHeight;
     else if (view !== activeView) surface.scrollTop = 0;
@@ -1115,12 +1217,14 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     if (!run.mode) return [];
     if (run.mode === 'fast') return ['route','candidate','points'];
     if (run.phase === 'already-done') return ['route'];
-    const keys = ['route','plan','quote'];
-    if (run.checkedRewards) keys.push('rewards','claim');
-    return keys.concat('redeem','receipt');
+    return ['route','plan','quote','rewards','claim','redeem','receipt'];
+  }
+  function skipsRewardStep(key) {
+    return run.done.has('quote') && !run.checkedRewards && (key === 'rewards' || key === 'claim');
   }
   function status(key) {
     if (run.done.has(key)) return 'done';
+    if (skipsRewardStep(key)) return 'skipped';
     if (!run.mode) return 'pending';
     if (key === run.step) {
       if (waiting()) return 'waiting';
@@ -1142,6 +1246,7 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     routing: {nodes:['recall','cardinality','route'], edges:inputFlow},
     'fast-candidate': {nodes:['single'], edges:[['route-single']]},
     reading: {nodes:['execute','worker'], edges:[['single-execute'], ...executionFlow]},
+    'plan-ready': {nodes:['freeze'], edges:[['split-freeze']]},
     planning: {nodes:['discover','scope','split','freeze'], edges:[['route-discover'],['discover-scope'],['scope-split'],['split-freeze']]},
     quoting: {nodes:['execute','worker'], edges:[['freeze-execute'], ...executionFlow]},
     rewards: {nodes:['execute','worker'], edges:executionFlow},
@@ -1215,10 +1320,12 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     const progressState = !mode ? 'idle' : waiting() ? 'waiting' : ['CANCELED','STOPPED'].includes(state) ? 'stopped'
       : state === 'COMPLETED' ? 'done' : 'active';
     const prefix = {waiting:'等确认 · ', stopped:state === 'CANCELED' ? '已取消 · ' : '未办结 · '}[progressState] || '';
-    const progressText = mode ? prefix + '已完成 ' + completed + ' / ' + shown.length + ' 步' : '等待用户操作';
+    const effectiveSteps = shown.filter(key => !skipsRewardStep(key)).length;
+    const skipped = shown.length - effectiveSteps;
+    const progressText = mode ? prefix + '已完成 ' + completed + ' / ' + effectiveSteps + ' 步' + (skipped ? ' · 跳过 ' + skipped + ' 步' : '') : '等待用户操作';
     const meter = el('points-meter');
     meter.dataset.state = progressState;
-    const total = Math.max(1, shown.length);
+    const total = Math.max(1, effectiveSteps);
     meter.setAttribute('aria-valuemax', String(total));
     meter.setAttribute('aria-valuenow', String(completed));
     meter.setAttribute('aria-valuetext', progressText);
@@ -1228,7 +1335,9 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
     const event = technical();
     el('points-tech-title').textContent = event.title;
     el('points-tech-copy').textContent = event.explanation;
-    el('points-tech-json').textContent = JSON.stringify(event.data, null, 2);
+    const todo = todoDefinitions.find(item => item.step === run.step);
+    const sample = todo && run.todoResults ? {...event.data, todo:{id:todo.id, status:status(todo.step)}} : event.data;
+    el('points-tech-json').textContent = JSON.stringify(sample, null, 2);
   }
   function technical() {
     const identity = {contextId:run.contextId, taskId:run.taskId};
@@ -1252,7 +1361,9 @@ PCFET0NUWVBFIGh0bWw+CjxodG1sIGRhdGEtZWRwYS1jaGFydD0iYXJjaGl0ZWN0dXJlIiBsYW5nPSJ6
       plan: {
         title:'慢路径编排与条件校验',
         explanation:'StagePlanningRail 使用本轮候选验证依赖和绑定；后续步骤是否执行取决于前序结果。',
-        data:{path:'SLOW', ...identity, steps:[{action:'benefit.quote'},{action:'reward.lookup',depends_on:'benefit.quote',when:'shortfall_points > 0'},{action:'benefit.redeem',when:'available_points >= required_points'}]}
+        data:{path:'SLOW', ...identity, ...(run.todoResults && {todos:todoDefinitions.map(todo => ({
+          id:todo.id, action:todo.action, depends_on:todo.dependsOn, when:todo.when, requires_confirmation:todo.confirm
+        }))})}
       },
       quote: {
         title:'MCP 查权益',
